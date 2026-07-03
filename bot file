@@ -101,4 +101,4 @@ async def tempo(ctx, *, material):
         await ctx.send("❌ Não tenho info disso")
 
 # 🚀 START
-bot.run("MTUyMjY4NzcyNjkwMDYwOTA2NA.GAbVV6.KixkEHN-lyyn-rm3qIMX1Xl_de_S0r59C5HVjs")
+bot.run(teu token aqui)
