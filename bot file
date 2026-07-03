@@ -1,0 +1,104 @@
+import random
+import discord
+from discord.ext import commands
+
+TOKEN = "COLOQUE_SEU_NOVO_TOKEN_AQUI"
+
+intents = discord.Intents.default()
+intents.message_content = True
+
+bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+
+# 🌱 DADOS
+dicas = [
+    "Use garrafa reutilizável 🌱",
+    "Separe o lixo reciclável ♻️",
+    "Economize água 🚿",
+    "Apague luzes 💡",
+    "Use sacolas reutilizáveis 🛍️",
+    "Recicle pilhas corretamente 🔋",
+]
+
+desafios = [
+    "Hoje não use plástico descartável 🌍",
+    "Economize água hoje 💧",
+    "Recicle 5 itens ♻️",
+    "Apague luzes desnecessárias 💡",
+]
+
+quiz = [
+    {"pergunta": "Qual cor da lixeira do papel?", "resposta": "azul"},
+    {"pergunta": "Quanto tempo plástico demora pra decompor?", "resposta": "450 anos"},
+    {"pergunta": "Cor do vidro?", "resposta": "verde"},
+]
+
+reciclagem_itens = {
+    "papel": "Lixeira Azul 🟦",
+    "plastico": "Lixeira Vermelha 🟥",
+    "plástico": "Lixeira Vermelha 🟥",
+    "vidro": "Lixeira Verde 🟩",
+    "metal": "Lixeira Amarela 🟨",
+    "organico": "Lixeira Marrom 🟫",
+    "orgânico": "Lixeira Marrom 🟫",
+    "pilha": "Ponto de coleta 🔋",
+    "bateria": "Ponto de coleta 🔋",
+}
+
+decomposicao = {
+    "papel": "3 a 6 meses",
+    "plastico": "450 anos",
+    "plástico": "450 anos",
+    "lata": "200 anos",
+    "vidro": "4000+ anos",
+    "isopor": "400 anos",
+}
+
+# 🤖 EVENTO
+@bot.event
+async def on_ready():
+    print(f"{bot.user} online 🌱")
+    await bot.change_presence(activity=discord.Game("Salvando o planeta 🌍"))
+
+# 📌 COMANDOS
+@bot.command()
+async def ajudaeco(ctx):
+    await ctx.send(
+        "🌱 **EcoBot Comandos**\n"
+        "!dica - dica ecológica\n"
+        "!desafio - desafio do dia\n"
+        "!quiz - pergunta ambiental\n"
+        "!reciclagem <item> - onde descartar\n"
+        "!tempo <material> - tempo de decomposição"
+    )
+
+@bot.command()
+async def dica(ctx):
+    await ctx.send(random.choice(dicas))
+
+@bot.command()
+async def desafio(ctx):
+    await ctx.send(random.choice(desafios))
+
+@bot.command()
+async def quiz(ctx):
+    q = random.choice(quiz)
+    await ctx.send(f"🧠 {q['pergunta']}\nResposta: {q['resposta']}")
+
+@bot.command(name="reciclagem")
+async def reciclagem(ctx, *, item):
+    item = item.lower()
+    if item in reciclagem_itens:
+        await ctx.send(f"♻️ {item} → {reciclagem_itens[item]}")
+    else:
+        await ctx.send("❌ Não sei esse item ainda")
+
+@bot.command()
+async def tempo(ctx, *, material):
+    material = material.lower()
+    if material in decomposicao:
+        await ctx.send(f"⏳ {material}: {decomposicao[material]}")
+    else:
+        await ctx.send("❌ Não tenho info disso")
+
+# 🚀 START
+bot.run("MTUyMjY4NzcyNjkwMDYwOTA2NA.GAbVV6.KixkEHN-lyyn-rm3qIMX1Xl_de_S0r59C5HVjs")
